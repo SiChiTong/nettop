@@ -271,7 +271,7 @@ int main(int argc, char *argv[]) {
 		nettop::parse_args(argc, argv, argv[0], __version__);
 
 		nettop::packet_list		p_list;
-		nettop::cap_mgr			c;
+		nettop::cap_mgr			c(nettop::settings::INTERFACE.empty() ? NULL : nettop::settings::INTERFACE.c_str());
 		nettop::local_addr_mgr		lam;
 		nettop::async_log_list		log_list;
 		nettop::name_res		nr(quit);

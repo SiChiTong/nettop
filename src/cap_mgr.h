@@ -39,7 +39,7 @@ namespace nettop {
 
 		pcap_t	*p_;
 public:
-		cap_mgr();
+		cap_mgr(const char *device = NULL);
 
 		~cap_mgr();
 

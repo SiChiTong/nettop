@@ -34,6 +34,7 @@ namespace {
 				"-o, --order (a|d)\t\tOrdering of results, 'a'scending, 'd'escending (default '" << 'd' << "')\n"
 				"    --filter-zero\t\tSet to filter all zero results (default not set)\n"
 				"    --tcp-udp-split\t\tDisplays split of TCP and UDP traffic in % (default not set)\n"
+				"-i, --interface (network interface name)\tOnly captures data from the specified network interface (e.g., eth0)\n"
 				"-a, --async-log-file (file)\tSets an output file where to store the packets attribued to the 'kernel' (default not set)\n"
 				"-l, --limit-hosts-rows\t\tLimits maximum number of hosts rows per pid (default no limit)\n"
 				"    --help\t\t\tprints this help and exit\n\n"
@@ -49,6 +50,7 @@ namespace nettop {
 		bool		ORDER_TOP = true;
 		bool		FILTER_ZERO = false;
 		bool		TCP_UDP_TRAFFIC = false;
+		std::string	INTERFACE = "";
 		std::string	ASYNC_LOG_FILE = "";
 		size_t		LIMIT_HOSTS_ROWS = 0;
 	}
@@ -65,6 +67,7 @@ int nettop::parse_args(int argc, char *argv[], const char *prog, const char *ver
 		{"order",		required_argument, 0,	'o'},
 		{"filter-zero",		no_argument, 	   0,	0},
 		{"tcp-udp-split",	no_argument,	   0,	0},
+	    {"interface",	required_argument, 0,	'i'},
 		{"async-log-file",	required_argument, 0,	'a'},
 		{"limit-hosts-rows",	required_argument, 0,	'l'},
 		{0, 0, 0, 0}
@@ -74,7 +77,7 @@ int nettop::parse_args(int argc, char *argv[], const char *prog, const char *ver
         	// getopt_long stores the option index here
         	int		option_index = 0;
 
-		if(-1 == (c = getopt_long(argc, argv, "hr:c:o:a:l:", long_options, &option_index)))
+		if(-1 == (c = getopt_long(argc, argv, "hr:c:o:i:a:l:", long_options, &option_index)))
        			break;
 
 		switch (c) {
@@ -127,6 +130,10 @@ int nettop::parse_args(int argc, char *argv[], const char *prog, const char *ver
 
 		case 'a': {
 			ASYNC_LOG_FILE = optarg;
+		} break;
+
+		case 'i': {
+			INTERFACE = optarg;
 		} break;
 
 		case 'l': {

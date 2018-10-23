@@ -112,10 +112,10 @@ namespace {
 	}
 }
 
-nettop::cap_mgr::cap_mgr() : p_(0) {
+nettop::cap_mgr::cap_mgr(const char *device) : p_(0) {
 	// open all network devices
 	char	err[PCAP_ERRBUF_SIZE+1];
-	p_ = pcap_open_live(NULL, BUFSIZ, 0, 250, err);
+	p_ = pcap_open_live(device, BUFSIZ, 0, 250, err);
 	if(!p_)
 		throw runtime_error(err);
 	// only support Linux Cooked Socket link!
